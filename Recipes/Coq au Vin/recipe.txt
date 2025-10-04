@@ -1,0 +1,60 @@
+#Coq au Vin
+#Coq au Vin (Chicken in Wine)
+#FrenchFood
+#coq au vin.png
+#2025/09/30
+#https://www.youtube.com/embed/l_JLuI9cGvs
+#Music is French Elegance by NverAvetyanMusic / Nver Avetyan from Pixabay
+#
+#2 servings
+*Marinade
+- Get [2_ _chicken legs], and cut and debone the <thighs>
+- Place them in a container with quartered <onions> and chopped <carrots>
+- Add <parsley>, <rosemary>, fresh <oregano>, and fresh <thyme>
+- Cover with [1_ bottle of _red wine] (I used Merlot).
+- Close the container and keep it in the fridge for a minimum of 12 hours
+*Vegetable stock
+- <Parsley stems>, [2_ small _onions] with the skin, [1_ _carrot], [1_ _celery] stick, [1_ _clove], [1_ _juniper berry] (crushed), and [2_ _bay leaves]
+- Cover with cold <water>, bring to a boil, then simmer for 1 hour and a half
+- Filter the stock with a sieve, then reduce it to about {0.5 liters} on low flame
+*Beurre manié
+- Mix [1 tablespoon_ of soft _butter] with [1 tablespoon_ of _flour] until they are completely homogenized together
+- This preparation it is not cooked
+*Mushrooms and Pancetta
+- Chop [60g_ of _pancetta] (or <bacon>) in small cubes
+- Get about [200g_ of _mushrooms] and cook them for 10 minutes in <butter> and <oil>
+- Add <salt> and <pepper>, stir, and cook another minute
+- Remove the <mushrooms> from the pan and add the <pancetta>
+- Let the <pancetta> get some color, then add back the <mushrooms> and cook another couple of minutes
+*White toast
+- Get [1 slice_ of _white bread] (also {2} if you like), remove the borders, and cut it into triangles
+- Toast the <bread> in the same pan you used to cook <mushrooms> and <pancetta>; the residual fat will be enough
+*Caramelized onions
+- In a pan add [1 tablespoon_ of _sugar] and [1 teaspoon_ of _butter] with a pinch of <salt>
+- Add [8_ small round _onions] (mine were preserved, and I had to wash them)
+- Cook them on a vivid flame until the <sugar> becomes brown
+- Remove from the flame, and reserve them on a dish with a bit of <oil>
+- Warning: they will stick together if you do not separate them while hot
+*Cooking the chicken
+- Remove and discard the herbs from the marinade
+- Remove the <chicken> from the marinade
+- Save the <onions> and <carrots> using a sieve
+- Save all the <wine>; use a sieve to filter any solid residue
+- Pat dry the <chicken> with kitchen paper
+- Reduce the <wine> to {0.5 liters} over a low flame
+- Preheat the oven at {200°C}
+- Brown the <chicken> on both sides in a pan with <oil> and <butter> (about 10 minutes), and add <salt> and <pepper>
+- Add [30ml_ of _Cognac] to the pan, and flame it. Let the flames extinguish themselves
+- Remove the <chicken> from the pan and add the <onions> and <carrots>; cook them a couple of minutes on a very strong flame
+- Add half of the <beurre manié> to the pot where the vegetable stock is reducing, and stir for a minute to dissolve
+- In a Dutch oven, add the <onion> and <carrots> to the bottom, cover with the <chicken>, then pour almost all the wine reduction (keep a ladle) and almost all the vegetable stock (reserve a ladle too)
+- Close the Dutch oven and place it in the oven for 30 minutes
+*Sauce
+- Mix the reserved <wine> reduction and <vegetable stock>, add <salt> and <pepper> and the remaining <beurre manié>, and stir well
+- Add [15ml_ of _Cognac] and cook for 30 seconds on low flame
+- Pour the <mushrooms> and <pancetta> in the sauce
+=Serving
+- Place the <chicken> on a dish, cover with the veggies (<onions> and <carrots>), and use a spider to get them from the cooking liquid
+- Add the sauce on top, and decorate with the caramelized onions and the white toast
+- Serve with a side of <mashed potatoes>
+

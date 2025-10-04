@@ -1,0 +1,198 @@
+body { 
+	background-color: #222722; color: #ceee12;
+}
+
+.Headertop {
+  background-color: #181f27;
+  background-image: url("Imgs/CPU's food avatar.png");
+  background-position-x: right;
+  background-position-y: top;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 11em;
+  margin: 0;
+  padding: 1em;
+	position: sticky;
+  top: 0;
+  left: 0;
+}
+
+.Headertop h1 {
+	font-size: 5em;
+	margin-top: 0em;
+}
+.HeadertopStats {
+	font-size: 1.8em;
+  margin-top: -1.8em;
+}
+
+.RecipeTitle {
+  background-color: #181f27;
+  background-position-x: right;
+  background-position-y: top;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 6em;
+  margin: 0;
+  padding: 1em 5em 1em 6em;
+	position: sticky;
+  top: 0;
+  left: 0;
+}
+
+
+.SearchBarTop {
+	position: sticky;
+  top: 6.5em;
+  left: 0;
+}
+
+.VerticalEmptySpace {
+	height: 5.5em;
+	margin: 0;
+	padding: 0;
+}
+
+.EmSpace {
+  width: 1em;
+}
+
+.SearchBar {
+	margin-left: 1em;
+	margin-right: 1em;
+	width: calc(100vw - (100vw - 100%) - 6em);
+	border: 2px lightgray solid;
+	border-radius: .2em;
+	font-size:2em;
+}
+
+.SearchButton {
+	font-size:1.8em;
+}
+
+.SearchButtonImage {
+	width: 1em;
+	vertical-align: middle;
+}
+
+.SortMode {
+	float: right;
+  margin-right: 2.7em;
+	font-size: 1.5em;
+}
+
+.Back {
+	position: absolute;
+	top: 28px;
+	left: 0.5em;
+	font-size: 2em;
+	width: 2em;
+	line-height: .75em;
+	color: blue;
+	background-color: yellow;
+	font-weight: bold;
+	border-radius: 8px;
+	cursor: pointer;
+}
+.BackText {
+	font-size: .5em;
+}
+
+a { color: inherit; } 
+
+	.Em5Space {
+		width: 1em;
+		display: inline-block;
+	}
+	
+	.RecipeBlock {
+		border: 4px solid #2345ef;
+		border-radius: 5px;
+		background-color: #1234ef;
+		margin: .35em;
+	}
+	.RecipeImage {
+		width: 100%;
+		object-fit: cover;
+		vertical-align: bottom;
+		aspect-ratio: 16 / 14;
+	}
+	
+.RecipeDescription {
+	vertical-align: top;
+	font-size: 1.4em;
+	margin-top: 1em;
+}
+
+
+.RecipesContainer {
+	display: grid;
+	max-width: calc(100vw - 1em);
+	gap: 16px;
+	grid-template-columns: repeat(auto-fill, minmax(200px,300px)); // for desktop
+}
+.RecipeName {
+	text-align: center;
+	font-weight: bolder;
+	font-size: 2em; // for desktop
+	margin: 0;
+	background-color: #1234ef;
+	padding: 0;
+}
+.RecipeTags {
+	font-size: 1.5em; // for desktop
+	margin: 0;
+	background-color: #1234ef;
+	padding: 0;
+}
+input[type="checkbox"] {
+	width: 20px;
+	height: 20px;
+}
+ul {
+	font-size: 1.5em;
+}
+li { 
+	margin-left: -1em;
+	display:block;
+}
+
+
+@media (max-width: 768px), (orientation: portrait) {
+	.RecipesContainer {
+		display: grid;
+		max-width: calc(100vw - 1em);
+		gap: 16px;
+		grid-template-columns: repeat(auto-fill, minmax(200px,470px)); // for phone
+	}
+	.RecipeName {
+		text-align: center;
+		font-weight: bolder;
+		font-size: 3.5em; // for media phone
+		margin: 0;
+		background-color: #1234ef;
+		padding: 0;
+	}
+	.RecipeTags {
+		font-size: 2.5em;
+		margin: 0;
+		background-color: #1234ef;
+		padding: 0;
+	}
+	.SortMode {
+		float: right;
+		margin-right: 2em;
+		font-size: 2em;
+	}
+	input[type="checkbox"] {
+		width: 32px;
+		height: 32px;
+	}
+	ul {
+		font-size: 2em;
+	}
+	li { 
+		margin-left: -1em;
+		display:block;
+	}
+}
