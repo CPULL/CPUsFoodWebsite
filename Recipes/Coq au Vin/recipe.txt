@@ -5,12 +5,13 @@
 #2025/09/30
 #https://www.youtube.com/embed/l_JLuI9cGvs
 #Music is French Elegance by NverAvetyanMusic / Nver Avetyan from Pixabay
-#
+#Coq au vin (French for 'rooster/chicken with wine') is a French dish of chicken first marinated with wine, onions, carrots, and herbs; then braised and served with pancetta and mushrooms.
+#chicken, red wine, onion, carrot, celery, cloves, juniper berry, bay leaves, butter, flour, pancetta, mushrooms, bread, sugar, Cognac, parsley, rosemary, oregano, thyme
 #2 servings
 *Marinade
 - Get [2_ _chicken legs], and cut and debone the <thighs>
 - Place them in a container with quartered <onions> and chopped <carrots>
-- Add <parsley>, <rosemary>, fresh <oregano>, and fresh <thyme>
+- Add [1 bunch_ of _parsley], [1 bunch_ of _rosemary], [1 bunch_ of _fresh oregano], and [1 bunch_ of _fresh thyme]
 - Cover with [1_ bottle of _red wine] (I used Merlot).
 - Close the container and keep it in the fridge for a minimum of 12 hours
 *Vegetable stock

@@ -34,7 +34,7 @@ if ($query->num_rows == 0) {
 } else {
 	$query->fetch();
 	
-	if((strtotime($lastAccess) + 3600) >  time()) { // Update if at least one hour passed
+	if((strtotime($lastAccess) + 3600) < time()) { // Update if at least one hour passed
 		$connectionsCount++;
 		$now = date('Y/m/d h:i:s a', time());
 		$query = $sql->prepare("UPDATE `IPTracking` SET `Count`=?,`LastAccess`=? WHERE IP=? AND Browser=?");

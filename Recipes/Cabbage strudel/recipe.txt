@@ -6,6 +6,7 @@
 #https://www.youtube.com/embed/LGzagOG2MSg
 #Music is Purple cabbage by Loksii / Oleksii Holubiev from Pixabay
 #Strudel is a sweet preparation from Austria, often filled with apples. This variant uses cabbage as filling.
+#cabbage, flour, salt, butter, water, sausages, cheese, ricotta, egg, Cream of tartar, milk
 #3 servings
 - Get [0.5_ _Savoy cabbage] (pretty much all types of <cabbage> will work), clean it and chop it small. About {500g} cleaned
 - Add <olive oil> in a pan and put the <cabbage> inside, <salt> it, and cook it at medium temperature for 25 mins covered, stirring from time to time

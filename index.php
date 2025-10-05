@@ -78,3 +78,16 @@ $("#SortMode").on("change", function(evt) {
 
 </body>
 </html>
+<?php
+/*
+Add some pagination for the recipes, or infinite scrolling (maybe on mobile)
+Add a way to increase/decrease the font size
+Add ability to create an account (just email/password, that will not be stored in clear), used to comment and upvote/downvote
+add number of likes to recipes
+add comments to recipes
+add ability to show multiple images of the recipes, probably on bottom
+Add filters in the search
+Change the direct creation of the thumbnails with a service that will provide the data, and javascript will create the actual thumbnails
+For the amounts, check how many servings we had, and show only valid options (1, 2, 3, etc.)
+*/
+?>

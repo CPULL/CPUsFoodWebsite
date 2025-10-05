@@ -16,28 +16,31 @@
 <div class="RecipeTitle" style="background-image: url(<?= $recipe[3] ?>);">
 	<h1>CPU's food - <?= $recipe[1] ?></h1>
 	<h2><?= $recipe[2] ?> - <?= $recipe[4] ?></h2>
-	<button onclick="window.history.go(-1); return false;" class="Back" title="Go back to all recipes">⇦ <span class="BackText">Back</span></button>
+	<a href=".."><button class="Back" title="Go back to all recipes">⇦ <span class="BackText">Back</span></button></a>
 </div>
 
 <div class="SearchBarTop"></div>
 
 <div class="RecipeDescription"><?= $recipe[7] ?></div><br>
 <?php
-$amount="1";
+$amount=$recipe[9];
 if (array_key_exists('Amount', $_GET)) { $amount=$_GET['Amount']; }
-if (!$amount) { $amount = "1"; }
+if (!$amount) { $amount = $recipe[9]; }
+$mult = 1;
 switch ($amount) {
-	case "1/3": $mult = 0.333; break;
-	case "1/2": $mult = 0.5; break;
-	case "2/3": $mult = 0.666; break;
-	case "1"  : $mult = 1; break;
-	case "4/3": $mult = 1.333; break;
-	case "2"  : $mult = 2; break;
-	case "3"  : $mult = 3; break;
+	case "1": $mult = 1/$recipe[9]; break;
+	case "2": $mult = 2/$recipe[9]; break;
+	case "3": $mult = 3/$recipe[9]; break;
+	case "4": $mult = 4/$recipe[9]; break;
+	case "5": $mult = 5/$recipe[9]; break;
+	case "6": $mult = 6/$recipe[9]; break;
+	case "8": $mult = 8/$recipe[9]; break;
+	case "10": $mult =10/$recipe[9]; break;
+	case "12": $mult =12/$recipe[9]; break;
+	default: $mult=1; break;
 }
 
 $locale=readLocaleFromDB(); 
-
 ?>
 
 <?php
@@ -47,23 +50,23 @@ if ($mult!=1) {
 	echo "Recipe";
 }
 ?>
- will yield: <b><?= $recipe[8] ?></b> <span class="Em5Space">&nbsp;</span> <select id="Amount">
-<option <?php echo $amount=="1/3" ? "selected='selected'" : "" ?> value="1/3">1/3</option>
-<option <?php echo $amount=="1/2" ? "selected='selected'" : "" ?> value="1/2">1/2</option>
-<option <?php echo $amount=="2/3" ? "selected='selected'" : "" ?> value="2/3">2/3</option>
-<option <?php echo $amount=="1"   ? "selected='selected'" : "" ?> value="1">Exactly this amount</option>
-<option <?php echo $amount=="4/3" ? "selected='selected'" : "" ?> value="4/3">4/3</option>
-<option <?php echo $amount=="2"   ? "selected='selected'" : "" ?> value="2">double</option>
-<option <?php echo $amount=="3"   ? "selected='selected'" : "" ?> value="3">triple</option>
+ will yield: <b><?= $recipe[9] ?></b> <span class="Em5Space">&nbsp;</span> <select id="Amount">
+<option <?php echo $amount==$recipe[9] ? "selected='selected'" : "" ?> value="<?= $recipe[9] ?>">Original (<?= $recipe[9] ?>)</option>
+<option <?php echo $amount=="1"  ? "selected='selected'" : "" ?> value="1" >1</option>
+<option <?php echo $amount=="2"  ? "selected='selected'" : "" ?> value="2" >2</option>
+<option <?php echo $amount=="3"  ? "selected='selected'" : "" ?> value="3" >3</option>
+<option <?php echo $amount=="4"  ? "selected='selected'" : "" ?> value="4" >4</option>
+<option <?php echo $amount=="5"  ? "selected='selected'" : "" ?> value="5" >5</option>
+<option <?php echo $amount=="6"  ? "selected='selected'" : "" ?> value="6" >6</option>
+<option <?php echo $amount=="8"  ? "selected='selected'" : "" ?> value="8" >8</option>
+<option <?php echo $amount=="10" ? "selected='selected'" : "" ?> value="10">10</option>
+<option <?php echo $amount=="12" ? "selected='selected'" : "" ?> value="12">12</option>
 </select>
 <?php
 if ($mult!=1) {
-	preg_match('/(\d+)(.*)/', $recipe[8], $matches);
-	if (is_array($matches)) { 
-		$num = ceil(intval($matches[1]) * $mult);
-		$unit = $matches[2];
-		echo '<span class="Em5Space">&nbsp;</span>New yield: <b>'.$num.$unit.'</b>';
-	}
+	$num = ceil(intval($recipe[9]) * $mult);
+	$unit = $matches[2];
+	echo '<span class="Em5Space">&nbsp;</span>New yield: <b>'.$num.$unit.'</b>';
 }
 ?>
 
@@ -81,7 +84,7 @@ switch ($locale) {
 }
 ?>
 
-<span class="Em5Space">&nbsp;</span> <select id="Locale">
+<span class="Em5Space">&nbsp;</span> Measures: <select id="Locale">
 <option <?php echo $locale=="0" ? "selected='selected'" : "" ?> value="0" >Metric   </option>
 <option <?php echo $locale=="1" ? "selected='selected'" : "" ?> value="1" >Imperial </option>
 </select>
@@ -94,7 +97,7 @@ switch ($locale) {
 // <ingredient>
 $ingrs = [];
 $sortedingr = [];
-for($i=9; $i<count($recipe); $i++) {
+for($i=10; $i<count($recipe); $i++) {
 	$line = $recipe[$i];
 	if (substr($line,0,1)==="*") { // Title ["", "", title, null]
 		$ingrs[$line] = ["", "", $line, null];
@@ -209,19 +212,51 @@ switch ($locale) {
 			case "tablespoon":
 			case "tablespoons":
 			case "pinch":
+			case "bunch":
+			case "bunches":
+			case "bottle":
+			case "bottles":
+			case "glass":
+			case "glasses":
+			case "cup":
+			case "cups":
 				break;
 		
 			default:
 				echo "<b style='color:red'>|$unit|$num|</b>";
 		}
+		// Plural/singular
 		if ($unit=="teaspoon" And $num != 1) $unit="teaspoons";
 		if ($unit=="teaspoons" And $num == 1) $unit="teaspoon";
 		if ($unit=="tablespoon" And $num != 1) $unit="tablespoons";
 		if ($unit=="tablespoons" And $num == 1) $unit="tablespoon";
 		if ($unit=="pinch" And $num != 1) $unit="pinches";
 		if ($unit=="pinches" And $num == 1) $unit="pinch";
+		if ($unit=="bunch" And $num != 1) $unit="bunches";
+		if ($unit=="bunches" And $num == 1) $unit="bunch";
+		if ($unit=="glass" And $num != 1) $unit="glasses";
+		if ($unit=="glasses" And $num == 1) $unit="glass";
+		if ($unit=="bottle" And $num != 1) $unit="bottles";
+		if ($unit=="bottles" And $num == 1) $unit="bottle";
+		if ($unit=="cup" And $num != 1) $unit="cups";
+		if ($unit=="cups" And $num == 1) $unit="cup";
 		break;
-		
+	
+	case 0: // metric, just round to grams and kg if the numbers are too small/big
+		switch ($unit) {
+			case "g":
+				if ($num>1000) {
+					$num = intval(ceil($num/100))/10;
+					$unit="kg";
+				}
+				break;
+			case "kg":
+				if ($num<1) {
+					$num = intval($num*1000); 
+					$unit="g";
+				}
+				break;
+		}
 }
 	if ($unit=="*") { // Used only to force integer numbers
 		$num=ceil($num);
@@ -295,7 +330,7 @@ for($i=0; $i<count($sortedingr); $i++) {
 <h1>Preparation</h1>
 <ul>
 <?php
-for($i=9; $i<count($recipe); $i++) {
+for($i=10; $i<count($recipe); $i++) {
 	$line = $recipe[$i];
 	$begin = substr($line, 0, 1);
 	if ($begin == "*" Or $begin == "=") { // Title
@@ -347,7 +382,6 @@ $("#Locale").on("change", function(evt) {
 			console.log("OBJ", obj, textstatus);
 		}
 	}).then(function(value) {
-		console.log("VALUE", value);
 		var url = window.location.href;
 		let regex = /(.+)Locale=([^&]+)(.*)/i;
 		var result = regex.exec(url);
@@ -362,11 +396,8 @@ $("#Locale").on("change", function(evt) {
 
 $("#Locale").on("change", function(evt) { 
 	if ($("#Locale").val() == "<?= $locale ?>") {
-		console.log("same value" + $("#Locale").val());
 		return; // same value...
 	}
-	console.log("NEW value" + $("#Locale").val());
-	
 }).trigger( "change" );
 
 </script>

@@ -9,11 +9,11 @@ function readThumbnails($sortMode) { // sort: 0 date ASC, 1 Date DESC, 2 ALPH AS
 		$r = [];
 		$linecount = 0;
     $handleFile = fopen($fileName, "r");
-		while(!feof($handleFile) And $linecount < 5){
+		while(!feof($handleFile) And $linecount < 9){
       array_push($r, trim(substr(fgets($handleFile), 1)));
       $linecount++;
     }
-		if (count($r) < 5) { continue; }
+		if (count($r) < 9) { continue; }
 		$r[3] = "Recipes/$dir/".$r[3];
 		array_push($r, $dir);
 		array_push($all, $r);
@@ -34,7 +34,7 @@ function readThumbnails($sortMode) { // sort: 0 date ASC, 1 Date DESC, 2 ALPH AS
 	}
 	
 	foreach($all as $recipe) {
-		echo '<a href="recipe.php?Recipe='.$recipe[5].'" style="text-decoration:none;"><div class="RecipeBlock"><img class="RecipeImage" src="'.$recipe[3].'"><p class="RecipeName">'.$recipe[0].'</p><p class="RecipeTags">'.$recipe[2].'</p></div></a>';
+		echo '<a href="recipe.php?Recipe='.$recipe[9].'" style="text-decoration:none;" title="'.$recipe[7].'"><div class="RecipeBlock"><img class="RecipeImage" src="'.$recipe[3].'"><p class="RecipeName">'.$recipe[0].'</p><p class="RecipeTags">'.$recipe[2].'</p></div></a>';
 	}
 	
 }
@@ -58,7 +58,7 @@ function comparenameDESC($a, $b) {
 
 function getRecipe($dir) {
 	$fileName = "Recipes/$dir/recipe.txt";
-	if (!file_exists($fileName))  { return []; }
+	if (!file_exists($fileName))  { return [$dir,$dir,$dir,$dir,$dir,$dir,$dir,$dir,$dir,$dir,$dir]; }
 	$r = [];
 	$handleFile = fopen($fileName, "r");
 	while(!feof($handleFile)){
@@ -72,6 +72,11 @@ function getRecipe($dir) {
 	}
 	$r[3] = str_replace(" ", "%20", 'Recipes/'.$dir.'/'.$r[3]);
 	
+	preg_match('/(\d+)(.*)/', $r[9], $matches);
+	if (is_array($matches)) { 
+		$r[9] = intval($matches[1]);
+	}
+	if ($r[9] == 0) $r[9] = 1;
 	return $r;
 }
 

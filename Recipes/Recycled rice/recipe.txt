@@ -1,11 +1,12 @@
 #Recycled Rice and Chicken
 #Recycled Saffron rice and Rotisserie chicken
-#AmericanFood, StrangeFood, Leftovers
+#AmericanFood, Leftovers
 #recycled rice.png
 #2025/10/01
 #https://www.youtube.com/embed/8OCBi3vmx88
 #Music is Again by AudioCoffee / Denys Kyshchuk from Pixabay
 #This recipe was created to use rice and chicken leftovers
+#leftover rice, leftover Rotisserie Chicken, onion, butter, flour, milk
 #3 servings
 - This recipe uses leftovers from another video I did: https://www.youtube.com/shorts/Uw8g40yFah8
 *Saffron Rice
@@ -22,7 +23,7 @@
 - Get [30g_ of _butter] and [40g_ of _flour] with a pinch of <salt>, and mix them in a pan over medium heat until you form a <roux>
 - Add [300ml_ of cold _milk] and stir over the flame until it thickens
 - Add <pepper> and <nutmeg>
-*Preparation
+=Preparation
 - Combine the <onions> with the remaining <chicken>, then incorporate a splash of <white wine> and a small piece of <butter>. Warm it up in a pan for 5 minutes at medium heat
 - Mix the <rice> with the warm <béchamel>
 - Add the <rice> on the bottom of a plate and place the <chicken> over

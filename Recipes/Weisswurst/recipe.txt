@@ -6,6 +6,7 @@
 #https://www.youtube.com/embed/cEvCyu8SF4o
 #Music is Germany Bavarian Oktoberfest Background Music by SigmaMusicArt / Mikhail Smusev from Pixabay
 #Weißwurst (literally 'white sausage') is a traditional Bavarian sausage made from minced veal and pork and flavored with mace and other spices. The mixture is stuffed into pork or lamb casings.
+#veal, pork, tallow, lard, salt, white pepper, mace, mustard seeds, milk powder, parsley, ice, water, flour, butter, brown sugar, salt, milk, yeast, egg
 #24 units
 - Get [800g_ of _veal] and [800g_ of _pork], [150g_ of beef _tallow], and [200g_ of _pork fat]
 - Wash and keep the meat in <water> for a couple of hours to remove any blood
@@ -33,7 +34,7 @@
 - To use them, place them in boiling water for 5 minutes, and then use them as you wish, for example, for hot dogs
 *Bonus: Hotdog buns
 - This will produce {3} buns
-- In a pan mix [40g_ of __bread flour], [24g_ of _butter], [10g_ of _brown sugar], [5g_ of _salt], and [200ml_ of _milk]
+- In a pan mix [40g_ of _bread flour], [24g_ of _butter], [10g_ of _brown sugar], [5g_ of _salt], and [200ml_ of _milk]
 - Measure the weight
 - Cook at medium heat, stirring, until it becomes dense
 - Add more <milk> until you reach the previous weight
