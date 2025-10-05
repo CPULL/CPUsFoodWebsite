@@ -1,5 +1,6 @@
 <?php // Generation of recipe
  include "Code/recipes.php";
+ include "Code/database.php";
  $recipe = getRecipe($_GET['Recipe']);
 ?>
 <!DOCTYPE html>
@@ -7,7 +8,7 @@
 <head>
   <title>CPU's Food - <?= $recipe[0] ?></title>
 	<link rel="stylesheet" href="style.css">
-	<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<link rel="icon" type="image/x-icon" href="/Imgs/favicon.ico">
 </head>
 <body>
@@ -35,13 +36,7 @@ switch ($amount) {
 	case "3"  : $mult = 3; break;
 }
 
-$locale="metric";
-if (array_key_exists('Locale', $_GET)) { $locale=$_GET['Locale']; }
-if (!$locale) { $locale = "metric"; }
-switch ($locale) { 
-	case "metric": $locale = "metric"; break; // grams, liters, but also tablespoons and "a bit of"
-	case "imperial": $locale = "imperial"; break;
-}
+$locale=readLocaleFromDB(); 
 
 ?>
 
@@ -72,9 +67,20 @@ if ($mult!=1) {
 }
 ?>
 
+<?php
+if (array_key_exists('Locale', $_GET)) { $locale=$_GET['Locale']; }
+switch ($locale) { 
+	case "1": 
+	case "imperial": 
+		$locale = 1;
+		break;
+	default: $locale = 0; break; // metric: grams, liters, but also tablespoons and "a bit of"
+}
+?>
+
 <span class="Em5Space">&nbsp;</span> <select id="Locale">
-<option <?php echo $locale=="imperial"      ? "selected='selected'" : "" ?> value="imperial"     >Imperial      </option>
-<option <?php echo $locale=="metric"        ? "selected='selected'" : "" ?> value="metric"       >Metric        </option>
+<option <?php echo $locale=="0" ? "selected='selected'" : "" ?> value="0" >Metric   </option>
+<option <?php echo $locale=="1" ? "selected='selected'" : "" ?> value="1" >Imperial </option>
 </select>
 <br>
 <br>
@@ -163,7 +169,7 @@ function calculateLocalAmount($ingr, $locale, $mult) {
 	$unit = $ingr[1];
 	
 switch ($locale) { 
-	case "imperial": 
+	case 1: // imperial
 		switch ($unit) {
 			case "g": 
 				$unit = "lbs";
@@ -195,6 +201,10 @@ switch ($locale) {
 				$unit = "in";
 		
 			case "": // Pure numbers
+			case "teaspoon":
+			case "teaspoons":
+			case "tablespoon":
+			case "tablespoons":
 				break;
 		
 			default:
@@ -206,7 +216,6 @@ switch ($locale) {
 		if ($unit=="tablespoons" And $num == 1) $unit="tablespoon";
 		break;
 		
-	case "metric": $locale = "metric"; break; // grams, liters, but also tablespoons and "a bit of"
 }
 	if ($unit=="*") { // Used only to force integer numbers
 		$num=ceil($num);
@@ -319,18 +328,38 @@ $("#Amount").on("change", function(evt) {
 	window.location.replace(url);
 }).trigger( "change" );
 
+
 $("#Locale").on("change", function(evt) { 
 	if ($("#Locale").val() == "<?= $locale ?>") {
 		return; // same value...
 	}
-	var url = window.location.href;
-	let regex = /(.+)Locale=([\d/]+)(.*)/i;
-	var result = regex.exec(url);
-	if (!result) url += "&Locale=" + $("#Locale").val();
-	else {
-		url = result[1] + "Locale=" + $("#Locale").val() + result[3];
+	$.ajax({
+    type: "GET",
+    url: 'updateLocaleOnDB.php?Locale=' + $("#Locale").val(),
+    dataType: 'text',
+    success: function (obj, textstatus) {
+			console.log(obj);
+		}
+	}).then(function(value) {
+		var url = window.location.href;
+		let regex = /(.+)Locale=([\d/]+)(.*)/i;
+		var result = regex.exec(url);
+		var loc = "Locale=" + ($("#Locale").val()==1 ? "Imperial" : "Metric");
+		if (!result) url += "&" + loc;
+		else url = result[1] + loc + result[3];
+		window.location.replace(url);
+	});
+	
+}).trigger( "change" );
+
+
+$("#Locale").on("change", function(evt) { 
+	if ($("#Locale").val() == "<?= $locale ?>") {
+		console.log("same value" + $("#Locale").val());
+		return; // same value...
 	}
-	window.location.replace(url);
+	console.log("NEW value" + $("#Locale").val());
+	
 }).trigger( "change" );
 
 </script>

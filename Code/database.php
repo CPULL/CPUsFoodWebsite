@@ -54,6 +54,17 @@ mysqli_close($sql);
 return [$totalConnections, $connectionsCount, $lastAccess, $sortMode];
 }
 
+function numberOfDistinctVisitors() {
+$sql = connectSQL();
+$query = $sql->prepare("SELECT count(distinct IP) FROM `IPTracking`");
+$query->bind_result($count);
+$result = $query->execute();
+$query->fetch();
+mysqli_close($sql);
+return $count;
+}
+
+
 function updateSortMode($sortMode) {
 	$sql = connectSQL();
 	$ip = $_SERVER['REMOTE_ADDR'];
@@ -61,6 +72,31 @@ function updateSortMode($sortMode) {
 	$query = $sql->prepare("UPDATE `IPTracking` SET `SortMode`=? WHERE IP=? AND Browser=?");
 	$query->bind_param('dss', $sortMode, $ip, $browser);
 	$query->execute();
-	echo "Value is now $sortMode";
+	mysqli_close($sql);
 }
+
+function updateLocaleOnDB($locale) {
+	$loc = ($locale == "metric" ? 0 : 1);
+	$sql = connectSQL();
+	$ip = $_SERVER['REMOTE_ADDR'];
+	$browser = md5($_SERVER['HTTP_USER_AGENT']);
+	$query = $sql->prepare("UPDATE `IPTracking` SET `Locale`=? WHERE IP=? AND Browser=?");
+	$query->bind_param('dss', $loc, $ip, $browser);
+	$query->execute();
+	mysqli_close($sql);
+}
+
+function readLocaleFromDB() {
+	$sql = connectSQL();
+	$ip = $_SERVER['REMOTE_ADDR'];
+	$browser = md5($_SERVER['HTTP_USER_AGENT']);
+	$query = $sql->prepare("SELECT Locale FROM `IPTracking` WHERE IP=? AND Browser=?");
+	$query->bind_param('ss', $ip, $browser);
+	$query->bind_result($locale);
+	$result = $query->execute();
+	$query->fetch();
+	mysqli_close($sql);
+	return $locale;
+}
+
 ?>
