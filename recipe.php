@@ -68,10 +68,13 @@ if ($mult!=1) {
 ?>
 
 <?php
-if (array_key_exists('Locale', $_GET)) { $locale=$_GET['Locale']; }
+if (array_key_exists('Locale', $_GET)) { 
+$locale=$_GET['Locale']; 
+}
 switch ($locale) { 
 	case "1": 
 	case "imperial": 
+	case "Imperial": 
 		$locale = 1;
 		break;
 	default: $locale = 0; break; // metric: grams, liters, but also tablespoons and "a bit of"
@@ -205,6 +208,7 @@ switch ($locale) {
 			case "teaspoons":
 			case "tablespoon":
 			case "tablespoons":
+			case "pinch":
 				break;
 		
 			default:
@@ -214,6 +218,8 @@ switch ($locale) {
 		if ($unit=="teaspoons" And $num == 1) $unit="teaspoon";
 		if ($unit=="tablespoon" And $num != 1) $unit="tablespoons";
 		if ($unit=="tablespoons" And $num == 1) $unit="tablespoon";
+		if ($unit=="pinch" And $num != 1) $unit="pinches";
+		if ($unit=="pinches" And $num == 1) $unit="pinch";
 		break;
 		
 }
@@ -335,14 +341,15 @@ $("#Locale").on("change", function(evt) {
 	}
 	$.ajax({
     type: "GET",
-    url: 'updateLocaleOnDB.php?Locale=' + $("#Locale").val(),
+    url: 'Code/updateLocaleOnDB.php?Locale=' + $("#Locale").val(),
     dataType: 'text',
     success: function (obj, textstatus) {
-			console.log(obj);
+			console.log("OBJ", obj, textstatus);
 		}
 	}).then(function(value) {
+		console.log("VALUE", value);
 		var url = window.location.href;
-		let regex = /(.+)Locale=([\d/]+)(.*)/i;
+		let regex = /(.+)Locale=([^&]+)(.*)/i;
 		var result = regex.exec(url);
 		var loc = "Locale=" + ($("#Locale").val()==1 ? "Imperial" : "Metric");
 		if (!result) url += "&" + loc;

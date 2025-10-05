@@ -1,8 +1,6 @@
 { "result":"
 <?php
-include "Code/database.php";
-
-
+include "database.php";
 
 if (array_key_exists('Locale', $_GET)) { 
 	$locale=$_GET['Locale'];

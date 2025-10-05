@@ -76,12 +76,13 @@ function updateSortMode($sortMode) {
 }
 
 function updateLocaleOnDB($locale) {
-	$loc = ($locale == "metric" ? 0 : 1);
+	if ($locale == 1 or $locale == "1" or $locale == "Imperial" or $locale == "imperial") $locale = 1;
+	else $locale = 0;
 	$sql = connectSQL();
 	$ip = $_SERVER['REMOTE_ADDR'];
 	$browser = md5($_SERVER['HTTP_USER_AGENT']);
 	$query = $sql->prepare("UPDATE `IPTracking` SET `Locale`=? WHERE IP=? AND Browser=?");
-	$query->bind_param('dss', $loc, $ip, $browser);
+	$query->bind_param('dss', $locale, $ip, $browser);
 	$query->execute();
 	mysqli_close($sql);
 }
