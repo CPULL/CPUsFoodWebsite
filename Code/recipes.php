@@ -72,11 +72,13 @@ function getRecipe($dir) {
 	}
 	$r[3] = str_replace(" ", "%20", 'Recipes/'.$dir.'/'.$r[3]);
 	
-	preg_match('/(\d+)(.*)/', $r[9], $matches);
+	preg_match('/(.*)(\d+)(.*)/', $r[9], $matches);
 	if (is_array($matches)) { 
-		$r[9] = intval($matches[1]);
+		$r[9] = [$matches[1], intval($matches[2]), $matches[3]];
 	}
-	if ($r[9] == 0) $r[9] = 1;
+	if (!$r[9][0]) $r[9][0] = "";
+	if ($r[9][1] == 0) $r[9][1] = 1;
+	if (!$r[9][2]) $r[9][2] = "";
 	return $r;
 }
 

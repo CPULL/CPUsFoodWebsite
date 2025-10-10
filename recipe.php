@@ -1,6 +1,7 @@
 <?php // Generation of recipe
  include "Code/recipes.php";
  include "Code/database.php";
+ include "Code/units.php";
  $recipe = getRecipe($_GET['Recipe']);
 ?>
 <!DOCTYPE html>
@@ -25,18 +26,22 @@
 <?php
 $amount=$recipe[9];
 if (array_key_exists('Amount', $_GET)) { $amount=$_GET['Amount']; }
-if (!$amount) { $amount = $recipe[9]; }
+$quant = $recipe[9][1];
+if (!$amount) { $amount = $quant; }
+
 $mult = 1;
 switch ($amount) {
-	case "1": $mult = 1/$recipe[9]; break;
-	case "2": $mult = 2/$recipe[9]; break;
-	case "3": $mult = 3/$recipe[9]; break;
-	case "4": $mult = 4/$recipe[9]; break;
-	case "5": $mult = 5/$recipe[9]; break;
-	case "6": $mult = 6/$recipe[9]; break;
-	case "8": $mult = 8/$recipe[9]; break;
-	case "10": $mult =10/$recipe[9]; break;
-	case "12": $mult =12/$recipe[9]; break;
+	case "1": $mult = 1/$quant; break;
+	case "2": $mult = 2/$quant; break;
+	case "3": $mult = 3/$quant; break;
+	case "4": $mult = 4/$quant; break;
+	case "5": $mult = 5/$quant; break;
+	case "6": $mult = 6/$quant; break;
+	case "8": $mult = 8/$quant; break;
+	case "10": $mult =10/$quant; break;
+	case "12": $mult =12/$quant; break;
+	case "24": $mult =24/$quant; break;
+	case "36": $mult =36/$quant; break;
 	default: $mult=1; break;
 }
 
@@ -50,8 +55,8 @@ if ($mult!=1) {
 	echo "Recipe";
 }
 ?>
- will yield: <b><?= $recipe[9] ?></b> <span class="Em5Space">&nbsp;</span> <select id="Amount">
-<option <?php echo $amount==$recipe[9] ? "selected='selected'" : "" ?> value="<?= $recipe[9] ?>">Original (<?= $recipe[9] ?>)</option>
+ will yield: <b><?= $recipe[9][0].$quant.$recipe[9][2] ?></b> <span class="Em5Space">&nbsp;</span> <select id="Amount">
+<option <?php echo $amount==$quant ? "selected='selected'" : "" ?> value="<?= $quant ?>">Original (<?= $quant ?>)</option>
 <option <?php echo $amount=="1"  ? "selected='selected'" : "" ?> value="1" >1</option>
 <option <?php echo $amount=="2"  ? "selected='selected'" : "" ?> value="2" >2</option>
 <option <?php echo $amount=="3"  ? "selected='selected'" : "" ?> value="3" >3</option>
@@ -61,12 +66,13 @@ if ($mult!=1) {
 <option <?php echo $amount=="8"  ? "selected='selected'" : "" ?> value="8" >8</option>
 <option <?php echo $amount=="10" ? "selected='selected'" : "" ?> value="10">10</option>
 <option <?php echo $amount=="12" ? "selected='selected'" : "" ?> value="12">12</option>
+<option <?php echo $amount=="24" ? "selected='selected'" : "" ?> value="24">24</option>
+<option <?php echo $amount=="36" ? "selected='selected'" : "" ?> value="36">36</option>
 </select>
 <?php
 if ($mult!=1) {
-	$num = ceil(intval($recipe[9]) * $mult);
-	$unit = $matches[2];
-	echo '<span class="Em5Space">&nbsp;</span>New yield: <b>'.$num.$unit.'</b>';
+	$num = ceil(intval($quant) * $mult);
+	echo '<span class="Em5Space">&nbsp;</span>New yield: <b>'.$recipe[9][0].$num.$recipe[9][2].'</b>';
 }
 ?>
 
@@ -109,7 +115,7 @@ for($i=10; $i<count($recipe); $i++) {
 	}
 	$d = $i+1;
 	preg_match_all('/(\[[\d\.]+)([^_]*)_([^\[<]+)_([^\]]+])/', $line, $matches); // [amount unit_ prep _ingredient] ingr = [amount, unit, prep, ingredient]
-	if (is_array($matches)) {
+	if (is_array($matches) and count($matches) > 0 and $matches[0]) {
 		$amounts = $matches[1];
 		$units = $matches[2];
 		$preps = $matches[3];
@@ -120,19 +126,29 @@ for($i=10; $i<count($recipe); $i++) {
 			$sortedingr[count($sortedingr)] = $key;
 		}
 	}
-	preg_match_all('/(\{[\d\.]+)([^\}]*\})/', $line, $matches); // {amount unit} ingr = [amount, unit, null, null]
-	if (is_array($matches)) {
+	preg_match_all('/(\{[\d\.]+)([^\}]*\_})/', $line, $matches); // {amount unit} ingr = [amount, unit, null, "_"] // Will scale
+	if (is_array($matches) and count($matches) > 0 and $matches[0]) {
+//echo "&nbsp;<b style='color=red'>MATCH(S): ".$matches[0][0]."</b>&nbsp;";
+		$amounts = $matches[1];
+		$units = $matches[2];
+		for($j=0; $j<count($matches[0]); $j++) {
+			$key = $matches[0][$j];
+			$ingrs[$key] = [cleanTags($amounts[$j]), cleanTags($units[$j]), null, "_"];
+			$sortedingr[count($sortedingr)] = $key;
+		}
+	}
+	preg_match_all('/(\{[\d\.]+)([^\_}]*\})/', $line, $matches); // {amount unit} ingr = [amount, unit, null, null] // Will not scale
+	if (is_array($matches) and count($matches) > 0 and $matches[0]) {
 		$amounts = $matches[1];
 		$units = $matches[2];
 		for($j=0; $j<count($matches[0]); $j++) {
 			$key = $matches[0][$j];
 			$ingrs[$key] = [cleanTags($amounts[$j]), cleanTags($units[$j]), null, null];
 			$sortedingr[count($sortedingr)] = $key;
-//FIXME			echo "<li><b>DBG amount: </b>$d - ".$ingrs[$key][0].$ingrs[$key][1];
 		}
 	}
 	preg_match_all('/(<[^>]+>)/', $line, $matches); // <ingredient> ingr = [null, null, null, ingredient]
-	if (is_array($matches)) {
+	if (is_array($matches) and count($matches) > 0 and $matches[0]) {
 		$types = $matches[1];
 		for($j=0; $j<count($matches[0]); $j++) {
 			$key = $matches[0][$j];
@@ -146,13 +162,14 @@ function cleanTags($str) {
 	return str_replace(["<",">","[","]","{","}","_"], "", trim($str));
 }
 
-function replaceIngredients($line, $ingrs, $mult, $locale) {
+function replaceIngredients($line, $ingrs, $mult, $locale, $conversionUnits) {
 	foreach(array_keys($ingrs) as $key) {
 		if (str_contains($line, $key)) {
 //			echo "<li><b>XXXXX:</b>".htmlentities($line);
-			$ingr = calculateLocalAmount($ingrs[$key], $locale, $mult);
+			$ingr = calculateLocalAmount($ingrs[$key], $locale, $mult, $conversionUnits);
 			$num = $ingr[0];
 			$type = $ingr[3];
+			if ($type=="_") $type="";
 			$replacement = "$num ".$ingr[1].$ingr[2].'<b><a href="Ingredients/'.$type.'.html">'.$type."</a></b>";
 			$line = str_replace($key, $replacement, $line);
 		}
@@ -170,9 +187,27 @@ function replaceIngredients($line, $ingrs, $mult, $locale) {
 	return $line;
 }
 
-function calculateLocalAmount($ingr, $locale, $mult) {
-	$num = $ingr[0] * $mult;
+function calculateLocalAmount($ingr, $locale, $mult, $conversionUnits) {
+	if ($ingr[3] != null) {
+		$num = $ingr[0] * $mult;
+	} else {
+		$num = $ingr[0];
+	}
 	$unit = $ingr[1];
+	
+	if (str_contains($unit, "tablespoon") and $num > 3) {
+		if (array_key_exists(strtolower($ingr[3]), $conversionUnits)) {
+			$num = $num * $conversionUnits[strtolower($ingr[3])][0];
+			$unit = "g";
+		}
+	}
+	if (str_contains($unit, "teaspoon") and $num > 4) {
+		if (array_key_exists(strtolower($ingr[3]), $conversionUnits)) {
+			$num = $num * $conversionUnits[strtolower($ingr[3])][1];
+			$unit = "g";
+		}
+	}
+	
 	
 switch ($locale) { 
 	case 1: // imperial
@@ -225,27 +260,12 @@ switch ($locale) {
 			default:
 				echo "<b style='color:red'>|$unit|$num|</b>";
 		}
-		// Plural/singular
-		if ($unit=="teaspoon" And $num != 1) $unit="teaspoons";
-		if ($unit=="teaspoons" And $num == 1) $unit="teaspoon";
-		if ($unit=="tablespoon" And $num != 1) $unit="tablespoons";
-		if ($unit=="tablespoons" And $num == 1) $unit="tablespoon";
-		if ($unit=="pinch" And $num != 1) $unit="pinches";
-		if ($unit=="pinches" And $num == 1) $unit="pinch";
-		if ($unit=="bunch" And $num != 1) $unit="bunches";
-		if ($unit=="bunches" And $num == 1) $unit="bunch";
-		if ($unit=="glass" And $num != 1) $unit="glasses";
-		if ($unit=="glasses" And $num == 1) $unit="glass";
-		if ($unit=="bottle" And $num != 1) $unit="bottles";
-		if ($unit=="bottles" And $num == 1) $unit="bottle";
-		if ($unit=="cup" And $num != 1) $unit="cups";
-		if ($unit=="cups" And $num == 1) $unit="cup";
 		break;
 	
 	case 0: // metric, just round to grams and kg if the numbers are too small/big
 		switch ($unit) {
 			case "g":
-				if ($num>1000) {
+				if ($num>=1000) {
 					$num = intval(ceil($num/100))/10;
 					$unit="kg";
 				}
@@ -256,8 +276,44 @@ switch ($locale) {
 					$unit="g";
 				}
 				break;
+			case "ml":
+				if ($num>=1000) {
+					$num = intval(ceil($num/100))/10;
+					$unit="l";
+				}
+				break;
+			case "l":
+				if ($num<1) {
+					$num = intval($num*1000); 
+					$unit="ml";
+				}
+				break;
 		}
 }
+
+	// Plural/singular
+	if ($unit=="teaspoon" And $num != 1) $unit="teaspoons";
+	if ($unit=="teaspoons" And $num == 1) $unit="teaspoon";
+	if ($unit=="tablespoon" And $num != 1) $unit="tablespoons";
+	if ($unit=="tablespoons" And $num == 1) $unit="tablespoon";
+	if ($unit=="pinch" And $num != 1) $unit="pinches";
+	if ($unit=="pinches" And $num == 1) $unit="pinch";
+	if ($unit=="bunch" And $num != 1) $unit="bunches";
+	if ($unit=="bunches" And $num == 1) $unit="bunch";
+	if ($unit=="glass" And $num != 1) $unit="glasses";
+	if ($unit=="glasses" And $num == 1) $unit="glass";
+	if ($unit=="bottle" And $num != 1) $unit="bottles";
+	if ($unit=="bottles" And $num == 1) $unit="bottle";
+	if ($unit=="cup" And $num != 1) $unit="cups";
+	if ($unit=="cups" And $num == 1) $unit="cup";
+	if ($unit=="ladle" And $num != 1) $unit="ladle";
+	if ($unit=="ladles" And $num == 1) $unit="ladle";
+	if ($unit=="can" And $num != 1) $unit="cans";
+	if ($unit=="cans" And $num == 1) $unit="can";
+	if ($unit=="slice" And $num != 1) $unit="slices";
+	if ($unit=="slices" And $num == 1) $unit="slice";
+
+
 	if ($unit=="*") { // Used only to force integer numbers
 		$num=ceil($num);
 		$unit="";
@@ -318,7 +374,7 @@ for($i=0; $i<count($sortedingr); $i++) {
 		continue;
 	}
 	
-	$ingr = calculateLocalAmount($ingr, $locale, $mult);
+	$ingr = calculateLocalAmount($ingr, $locale, $mult, $conversionUnits);
 	$num = $ingr[0];
 	$quantity = $num;
 //FIXME	$quantity = ceil(intval($num * 100.0) * $mult) / 100.0;
@@ -338,7 +394,7 @@ for($i=10; $i<count($recipe); $i++) {
 	} else if ($begin == "?") { // Image
 	// FIXME
 	} else {
-		echo "<li> <input type='checkbox'>".replaceIngredients($recipe[$i], $ingrs, $mult, $locale);
+		echo "<li> <input type='checkbox'>".replaceIngredients($recipe[$i], $ingrs, $mult, $locale, $conversionUnits);
 	}
 }
 
